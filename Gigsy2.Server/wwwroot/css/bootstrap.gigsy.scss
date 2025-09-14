@@ -1,0 +1,96 @@
+﻿// bootstrap.gigsy.scss
+
+// Option A: Include all of Bootstrap
+
+// Include any default variable overrides here (though functions won't be available)
+
+$font-family-sans-serif:
+// Safari for macOS and iOS (San Francisco)
+-apple-system,
+// Android
+Roboto,
+// Basic web fallback
+"Helvetica Neue", Helvetica, Arial,
+// Windows
+"Segoe UI",
+// Linux
+"Noto Sans", "Liberation Sans",
+// Sans serif fallback
+sans-serif,
+// Emoji fonts
+"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+
+//    Gigsy Custom Palette
+
+$primary: #dd0038; // Gigsy Bright Neon Red
+$secondary: #2f525e; // Gigsy Dark Charcoal
+
+$success: #28a745; // Bootstrap Green
+$info: #17a2b8; // Bootstrap Teal
+$warning: #ffc107; // Bootstrap Yellow
+$danger: #dc3545; // Bootstrap Red
+
+// Navigation Icons
+
+.nav-link i.bi {
+    display: flex;
+}
+
+// Custom focus ring using $primary
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem $primary;
+    outline: none;
+}
+// Override Edge blue focus rings
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(221, 0, 56, 0.5); // your $primary with transparency
+}
+
+
+// "whitewash" input backgrounds
+input.form-control,
+textarea.form-control,
+select.form-select {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #000; // ensures legibility against the semi-white background
+    border: 1px solid rgba(255, 255, 255, 0.3); // optional subtle border
+}
+
+
+// Toggle Buttons
+// Selected Toggle Button
+.btn-check:checked + .btn {
+    background-color: #dd0038;
+    color: #fff;
+    border-color: #dd0038;
+}
+// Unselected Toggle Button
+.btn-check:not(:checked) + .btn {
+    background-color: transparent;
+    color: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+// Hover State for Unselected Toggle Button
+.btn-check + .btn:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+
+// Then import the rest of Bootstrap
+// (that way you have access to the variables and mixins)
+
+@import "../lib/bootstrap/scss/bootstrap";
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css");
+
+
+
