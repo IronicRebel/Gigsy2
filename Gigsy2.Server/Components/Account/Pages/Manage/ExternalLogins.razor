@@ -2,12 +2,13 @@
 
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
-@using Gigsy2.Server.Data
+@using Gigsy2.Data
+@using Gigsy2.Data.Entities.User
 
-@inject UserManager<ApplicationUser> UserManager
-@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<Gigsy2User> UserManager
+@inject SignInManager<Gigsy2User> SignInManager
 @inject IdentityUserAccessor UserAccessor
-@inject IUserStore<ApplicationUser> UserStore
+@inject IUserStore<Gigsy2User> UserStore
 @inject IdentityRedirectManager RedirectManager
 
 <PageTitle>Manage your external logins</PageTitle>
@@ -66,7 +67,7 @@
 @code {
     public const string LinkLoginCallbackAction = "LinkLoginCallback";
 
-    private ApplicationUser user = default!;
+    private Gigsy2User user = default!;
     private IList<UserLoginInfo>? currentLogins;
     private IList<AuthenticationScheme>? otherLogins;
     private bool showRemoveButton;
@@ -92,7 +93,7 @@
             .ToList();
 
         string? passwordHash = null;
-        if (UserStore is IUserPasswordStore<ApplicationUser> userPasswordStore)
+        if (UserStore is IUserPasswordStore<Gigsy2User> userPasswordStore)
         {
             passwordHash = await userPasswordStore.GetPasswordHashAsync(user, HttpContext.RequestAborted);
         }

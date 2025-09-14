@@ -1,5 +1,6 @@
 using System.Security.Claims;
-using Gigsy2.Server.Data;
+using Gigsy2.Data;
+using Gigsy2.Data.Entities.User;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Identity;
@@ -22,11 +23,11 @@ namespace Gigsy2.Server.Components.Account
         {
             // Get the user manager from a new scope to ensure it fetches fresh data
             await using var scope = scopeFactory.CreateAsyncScope();
-            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Gigsy2User>>();
             return await ValidateSecurityStampAsync(userManager, authenticationState.User);
         }
 
-        private async Task<bool> ValidateSecurityStampAsync(UserManager<ApplicationUser> userManager, ClaimsPrincipal principal)
+        private async Task<bool> ValidateSecurityStampAsync(UserManager<Gigsy2User> userManager, ClaimsPrincipal principal)
         {
             var user = await userManager.GetUserAsync(principal);
             if (user is null)

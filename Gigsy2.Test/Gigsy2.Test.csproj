@@ -9,7 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Gigsy2.Core\Gigsy2.Core.csproj" />
     <ProjectReference Include="..\Gigsy2.Data\Gigsy2.Data.csproj" />
-    <ProjectReference Include="..\Gigsy2.Shared\Gigsy2.Shared.csproj" />
   </ItemGroup>
 
 </Project>

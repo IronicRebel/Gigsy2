@@ -15,11 +15,15 @@
     <Folder Include="Entities\Booking\" />
     <Folder Include="Entities\Event\" />
     <Folder Include="Entities\Host\" />
-    <Folder Include="Entities\User\" />
     <Folder Include="Entities\Promoter\" />
     <Folder Include="Entities\Shared\" />
     <Folder Include="Entities\Venue\" />
     <Folder Include="Configs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.20" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.9" />
   </ItemGroup>
 
 </Project>

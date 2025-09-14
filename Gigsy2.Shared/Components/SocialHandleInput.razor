@@ -1,0 +1,35 @@
+﻿﻿@using System.ComponentModel.DataAnnotations
+@using Gigsy2.Core.Enums
+
+<div class="mb-3">
+    <label class="form-label fw-bold d-flex align-items-center" for="@Slug">
+        <i class="@IconClass me-2 @(IsValid ? "text-primary" : "text-muted")"></i>
+        @PlatformName
+    </label>
+
+    <@InputText id="@Slug"
+               class="form-control"
+               Value="@Handle"
+               ValueChanged="HandleChanged"
+               ValueExpression="@(() => Handle)" />
+
+    @if (IsValid)
+    {
+        <small class="text-muted">
+            <a href="@ResolvedUrl" target="_blank">@ResolvedUrl</a>
+        </small>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired] public string PlatformName { get; set; } = string.Empty;
+    [Parameter, EditorRequired] public string Slug { get; set; } = string.Empty;
+    [Parameter, EditorRequired] public string UrlPrefix { get; set; } = string.Empty;
+    [Parameter, EditorRequired] public string IconClass { get; set; } = string.Empty;
+
+    [Parameter] public string? Handle { get; set; }
+    [Parameter] public EventCallback<string?> HandleChanged { get; set; }
+
+    private string? ResolvedUrl => string.IsNullOrWhiteSpace(Handle) ? null : $"{UrlPrefix}{Handle}";
+    private bool IsValid => Uri.IsWellFormedUriString(ResolvedUrl, UriKind.Absolute);
+}

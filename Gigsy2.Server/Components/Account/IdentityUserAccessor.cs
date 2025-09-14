@@ -1,11 +1,12 @@
-using Gigsy2.Server.Data;
+using Gigsy2.Data;
+using Gigsy2.Data.Entities.User;
 using Microsoft.AspNetCore.Identity;
 
 namespace Gigsy2.Server.Components.Account
 {
-    internal sealed class IdentityUserAccessor(UserManager<ApplicationUser> userManager, IdentityRedirectManager redirectManager)
+    internal sealed class IdentityUserAccessor(UserManager<Gigsy2User> userManager, IdentityRedirectManager redirectManager)
     {
-        public async Task<ApplicationUser> GetRequiredUserAsync(HttpContext context)
+        public async Task<Gigsy2User> GetRequiredUserAsync(HttpContext context)
         {
             var user = await userManager.GetUserAsync(context.User);
 

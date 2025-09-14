@@ -1,8 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
-@using Gigsy2.Server.Data
+@using Gigsy2.Data
+@using Gigsy2.Data.Entities.User
 
-@inject SignInManager<ApplicationUser> SignInManager
+@inject SignInManager<Gigsy2User> SignInManager
 @inject IdentityRedirectManager RedirectManager
 
 @if (externalLogins.Length == 0)
