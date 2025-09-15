@@ -5,14 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Gigsy2.Core.Entities.Booking;
 using Gigsy2.Core.Entities.Performance;
-using static Gigsy2.Core.Entities.Performance.PerformanceItem;
 
 namespace Gigsy2.Core.Services
 {
     public class PerformanceService
     {
         // This would be called by a background job or trigger
-        public Performance CreatePerformanceFromCompletedBooking(BookingItem booking)
+        public PerformanceItem CreatePerformanceFromCompletedBooking(BookingItem booking)
         {
             // Validate booking is complete (date has passed)
             if (booking.EventDate.Date > DateTime.Today)
@@ -21,7 +20,7 @@ namespace Gigsy2.Core.Services
             }
 
             // Create performance record
-            var performance = new Performance
+            var performance = new PerformanceItem
             {
                 Id = Guid.NewGuid(),
                 BookingId = booking.Id,  // Link back to original booking
@@ -30,8 +29,7 @@ namespace Gigsy2.Core.Services
                 PerformanceDate = booking.EventDate,
                 StartTime = booking.StartTime,
                 Duration = booking.EndTime - booking.StartTime,
-                Title = booking.Title ?? $"Performance at {booking.VenueName}",
-                Description = booking.Description,
+                Title = booking.DisplayTitle ?? $"Performance at {booking.DisplayVenueName}",
                 Status = PerformanceStatus.Completed
             };
 

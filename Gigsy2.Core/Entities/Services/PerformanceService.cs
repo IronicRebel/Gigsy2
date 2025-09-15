@@ -3,12 +3,12 @@ using Gigsy2.Core.Entities.Performance;
 using System;
 using System.Threading.Tasks;
 
-namespace Gigsy2.Core.Shared
+namespace Gigsy2.Core.Entities.Services
 {
     public class PerformanceService
     {
         // This would be called by a background job or trigger
-        public Performance CreatePerformanceFromCompletedBooking(BookingItem booking)
+        public PerformanceItem CreatePerformanceFromCompletedBooking(BookingItem booking)
         {
             // Validate booking is complete (date has passed)
             if (booking.EventDate.Date > DateTime.Today)

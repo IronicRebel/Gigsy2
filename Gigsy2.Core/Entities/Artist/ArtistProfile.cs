@@ -8,7 +8,9 @@ namespace Gigsy2.Core.Entities.Artist
 {
     public class ArtistProfile
     {
-        public Guid UserProfileId { get; set; }
+        [Key]
+        public int apId { get; set; }
+        public Guid gupId { get; set; }
 
         public string? DisplayName { get; set; }
         public string? AvatarUrl { get; set; }
