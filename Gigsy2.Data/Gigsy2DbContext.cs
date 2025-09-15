@@ -1,10 +1,10 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
 using Gigsy2.Core.Entities.Artist;
 using Gigsy2.Core.Entities.Booking;
 using Gigsy2.Core.Entities.User;
 using Gigsy2.Core.Entities.Venue;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Gigsy2.Data
 {

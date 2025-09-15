@@ -11,8 +11,17 @@
     <Folder Include="Entities\Event\" />
   </ItemGroup>
 
+  <!-- Remove old ASP.NET Core Identity package (2.x) -->
+  <!-- <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
+  </ItemGroup> -->
+
+  <!-- Add framework reference so Identity types (IdentityUser) resolve on .NET 8 -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.20" />
   </ItemGroup>
-
 </Project>

@@ -22,14 +22,21 @@
     <Folder Include="Entities\Venue\" />
   </ItemGroup>
 
+  <!-- Remove legacy ASP.NET Identity (EF6) packages -->
+  <!-- <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.4" /> -->
+  <!-- <PackageReference Include="Microsoft.AspNet.Identity.EntityFramework" Version="2.2.4" /> -->
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.4" />
-    <PackageReference Include="Microsoft.AspNet.Identity.EntityFramework" Version="2.2.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.9" />
+    <!-- Align EF Core to .NET 8 -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.20">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 
+  <!-- Use ASP.NET Core shared framework so IdentityDbContext resolves -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
 </Project>
