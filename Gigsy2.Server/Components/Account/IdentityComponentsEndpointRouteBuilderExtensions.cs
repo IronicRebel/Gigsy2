@@ -3,7 +3,7 @@ using System.Text.Json;
 using Gigsy2.Server.Components.Account.Pages;
 using Gigsy2.Server.Components.Account.Pages.Manage;
 using Gigsy2.Data;
-using Gigsy2.Data.Entities.User;
+using Gigsy2.Core.Entities.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;

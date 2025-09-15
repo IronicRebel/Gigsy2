@@ -9,10 +9,11 @@ namespace Gigsy2.Core.Entities.Artist
     public class ArtistProfile
     {
         [Key]
-        public int apId { get; set; }
-        public Guid gupId { get; set; }
+        public Guid apId { get; set; } // The primary key for the ArtistProfile entity
 
-        public string? DisplayName { get; set; }
+        public Guid gupLUId { get; set; } // Lookup GUID to link with Gigsy2User
+
+        public string? StageName { get; set; }
         public string? AvatarUrl { get; set; }
         public string? Bio { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using Gigsy2.Core.Entities.Booking;
+﻿using Gigsy2.Core.Entities.User;
+using Gigsy2.Core.Entities.Booking;
 using Gigsy2.Core.Entities.Performance;
 using System;
 using System.Threading.Tasks;

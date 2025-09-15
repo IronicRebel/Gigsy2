@@ -1,4 +1,4 @@
-using Gigsy2.Data.Entities.User;
+using Gigsy2.Core.Entities.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 

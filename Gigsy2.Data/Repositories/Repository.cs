@@ -2,6 +2,7 @@ using Gigsy2.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Gigsy2.Data.Repositories
@@ -19,7 +20,23 @@ namespace Gigsy2.Data.Repositories
 
         public async Task<T> GetByIdAsync(Guid id)
         {
+            // This looks for the entity's primary key
             return await _dbSet.FindAsync(id);
+        }
+
+        public async Task<T> GetByLookupGuidAsync(Guid guid)
+        {
+            // For ArtistProfile, find by gupLUId
+            // For VenueProfile, find by vpLUId (assuming similar naming)
+            try {
+                return await _dbSet.FirstOrDefaultAsync(e => 
+                    (EF.Property<Guid?>(e, "gupLUId") == guid) || 
+                    (EF.Property<Guid?>(e, "vpLUId") == guid));
+            }
+            catch {
+                // If properties don't exist, return null
+                return null;
+            }
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
