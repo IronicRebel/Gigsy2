@@ -20,6 +20,7 @@ namespace Gigsy2.Data
         public DbSet<BookingItem> Bookings { get; set; } = null!;
         public DbSet<ArtistSocialMediaLinks> ArtistSocialMediaLinks { get; set; } = null!;
         public DbSet<ArtistReview> ArtistReviews { get; set; } = null!;
+        public DbSet<ArtistAvailability> ArtistAvailabilities { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -30,11 +31,15 @@ namespace Gigsy2.Data
                 .HasIndex(a => a.gupLUId)  // Index on lookup ID, not primary key
                 .IsUnique();
 
+            // Configure relationships
+
+            // Venue
             builder.Entity<VenueProfile>()
                 .HasIndex(v => v.gupId)    // Index on lookup ID, not primary key
                 .IsUnique();
 
-            // Configure relationships
+
+            // Artist
             builder.Entity<ArtistProfile>()
                 .HasOne<Gigsy2User>()
                 .WithOne()
@@ -45,6 +50,12 @@ namespace Gigsy2.Data
                 .HasOne<ArtistProfile>()
                 .WithOne()
                 .HasForeignKey<ArtistSocialMediaLinks>("ArtistProfileId");
+
+            builder.Entity<ArtistProfile>()
+                .HasOne(a => a.Availability)
+                .WithOne(a => a.ArtistProfile)
+                .HasForeignKey<ArtistAvailability>(a => a.ArtistProfileId);
+
         }
     }
 }

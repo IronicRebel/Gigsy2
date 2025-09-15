@@ -23,12 +23,12 @@ namespace Gigsy2.Core.Entities.Artist
         public double? Latitude { get; set; }  // Optional: for future mapping/filtering
         public double? Longitude { get; set; } // Optional: for future mapping/filtering
 
-        public List<PerformanceType> PerformanceTypes { get; set; } = new();
-        public List<BookingItem> Bookings { get; set; } = new();
-        public List<ArtistReview> Reviews { get; set; } = new();
+        public List<BookingItem> ArtistBookingItems { get; set; } = new();
+        public List<ArtistReview> ArtistReviews { get; set; } = new();
 
+        public ArtistAvailability AArtistAvailability { get; set; } = null;
 
-        public ContactInfo ContactInfo { get; set; } = new();
+        public ArtistContactInfo ArtistContactInfo { get; set; } = new();
         public ArtistSocialMediaLinks ArtistSocialMediaLinks { get; set; } = new();
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

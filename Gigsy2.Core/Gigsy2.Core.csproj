@@ -9,6 +9,7 @@
   <ItemGroup>
     <Folder Include="Entities\Host\" />
     <Folder Include="Entities\Event\" />
+    <Folder Include="Entities\Services\" />
   </ItemGroup>
 
   <!-- Remove old ASP.NET Core Identity package (2.x) -->
