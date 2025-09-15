@@ -17,8 +17,8 @@
     <Folder Include="Entities\Host\" />
     <Folder Include="Entities\Promoter\" />
     <Folder Include="Entities\Shared\" />
-    <Folder Include="Entities\Venue\" />
     <Folder Include="Configs\" />
+    <Folder Include="Entities\Venue\" />
   </ItemGroup>
 
   <ItemGroup>

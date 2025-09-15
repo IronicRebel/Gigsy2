@@ -9,10 +9,7 @@
   <ItemGroup>
     <Folder Include="Entities\Host\" />
     <Folder Include="Entities\Event\" />
-    <Folder Include="Entities\Booking\" />
     <Folder Include="Entities\User\" />
-    <Folder Include="Entities\Venue\" />
-    <Folder Include="Entities\Promoter\" />
   </ItemGroup>
 
 </Project>

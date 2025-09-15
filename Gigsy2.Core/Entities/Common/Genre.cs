@@ -1,7 +1,7 @@
 ﻿using Gigsy2.Core.Entities.Artist;
 using System.ComponentModel.DataAnnotations;
 
-namespace Gigsy2.Core.Entities.Shared
+namespace Gigsy2.Core.Entities.Common
 {
 
     public partial class Genre

@@ -1,5 +1,8 @@
 ﻿
+using Gigsy2.Core.Entities.Common;
 using System.ComponentModel.DataAnnotations;
+
+using Gigsy2.Core.Entities.Booking;
 
 namespace Gigsy2.Core.Entities.Artist
 {
@@ -12,21 +15,20 @@ namespace Gigsy2.Core.Entities.Artist
         public string? Bio { get; set; }
 
         // Location Details
-        public string NearestTown { get; set; } = string.Empty;
+        public string? NearestTown { get; set; } = string.Empty;
 
         public double? Latitude { get; set; }  // Optional: for future mapping/filtering
         public double? Longitude { get; set; } // Optional: for future mapping/filtering
 
-        // Social Media Handles
-        public string? SocialHandleSoundCloud { get; set; }
-        public string? SocialHandleInstagram { get; set; }
-        public string? SocialHandleX { get; set; }
-        public string? SocialHandleLinkedIn { get; set; }
-        public string? SocialHandleMixcloud { get; set; }
-        public string? SocialHandleYouTube { get; set; }
-        public string? SocialHandleFacebook { get; set; }
-        public string? SocialHandleSpotify { get; set; }
+        public List<PerformanceType> PerformanceTypes { get; set; } = new();
+        public List<BookingItem> Bookings { get; set; } = new();
+        public List<ArtistReview> Reviews { get; set; } = new();
 
-        public string? WebsiteUrl { get; set; }
+
+        public ContactInfo ContactInfo { get; set; } = new();
+        public ArtistSocialMediaLinks ArtistSocialMediaLinks { get; set; } = new();
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
+
 }
