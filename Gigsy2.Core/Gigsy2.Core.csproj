@@ -7,12 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\Artist\" />
     <Folder Include="Entities\Host\" />
     <Folder Include="Entities\Event\" />
     <Folder Include="Entities\Booking\" />
     <Folder Include="Entities\User\" />
-    <Folder Include="Entities\Shared\" />
     <Folder Include="Entities\Venue\" />
     <Folder Include="Entities\Promoter\" />
   </ItemGroup>

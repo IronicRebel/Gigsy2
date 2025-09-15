@@ -22,4 +22,8 @@
     <ProjectReference Include="..\Gigsy2.Server\Gigsy2.Server.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Forms\" />
+  </ItemGroup>
+
 </Project>

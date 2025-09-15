@@ -13,7 +13,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-// More identity stuff
+// Resources
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+// Localisation
+var supportedCultures = new[] { "en", "es-ES" };
+
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture("en")
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+
+// Identity stuff
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
@@ -43,8 +54,12 @@ builder.Services.AddIdentityCore<Gigsy2User>(options => options.SignIn.RequireCo
 // No-op email sender, for demo purposes only
 builder.Services.AddSingleton<IEmailSender<Gigsy2User>, IdentityNoOpEmailSender>();
 
+//
+//
 // Build everything
 var app = builder.Build();
+//
+//
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -58,11 +73,17 @@ else
     app.UseHsts();
 }
 
+// Use localisation
+app.UseRequestLocalization(localizationOptions);
+
+// Redirect HTTP to HTTPS
 app.UseHttpsRedirection();
 
+// Static files, including the _framework files for Blazor
 app.UseStaticFiles();
 app.UseAntiforgery();
 
+// Adds routing capabilities
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
