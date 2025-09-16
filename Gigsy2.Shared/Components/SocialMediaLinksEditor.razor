@@ -1,0 +1,166 @@
+@using Gigsy2.Core.Entities.Artist
+@using Gigsy2.Core.Entities.Venue
+@using System.Reflection
+
+<div class="container">
+    <h4>@Title</h4>
+    <p class="text-muted mb-4">@Description</p>
+    
+    <div class="row g-3">
+        @foreach (var platform in GetPlatforms())
+        {
+            <div class="col-md-6">
+                <SocialHandleInput 
+                    PlatformName="@platform.DisplayName"
+                    Slug="@platform.PropertyName.ToLower()"
+                    UrlPrefix="@platform.UrlPrefix"
+                    IconClass="@platform.IconClass"
+                    Handle="@GetHandleValue(platform.PropertyName)"
+                    HandleChanged="@((value) => UpdateHandle(platform.PropertyName, value))" />
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; } = "Social Media Links";
+    [Parameter] public string Description { get; set; } = "Connect your social accounts to help people find and follow you.";
+    [Parameter] public object? SocialLinks { get; set; }
+    [Parameter] public EventCallback<object> SocialLinksChanged { get; set; }
+
+    private class PlatformInfo
+    {
+        public string PropertyName { get; set; } = string.Empty;
+        public string DisplayName { get; set; } = string.Empty;
+        public string UrlPrefix { get; set; } = string.Empty; 
+        public string IconClass { get; set; } = string.Empty;
+    }
+
+    private Dictionary<string, PlatformInfo> _platformConfigs = new Dictionary<string, PlatformInfo>
+    {
+        ["AppleMusic"] = new PlatformInfo { 
+            DisplayName = "Apple Music", 
+            UrlPrefix = "https://music.apple.com/artist/", 
+            IconClass = "bi bi-music-note-beamed" 
+        },
+        ["Bandcamp"] = new PlatformInfo { 
+            DisplayName = "Bandcamp", 
+            UrlPrefix = "https://", 
+            IconClass = "bi bi-badge-bc" 
+        },
+        ["Facebook"] = new PlatformInfo { 
+            DisplayName = "Facebook", 
+            UrlPrefix = "https://facebook.com/", 
+            IconClass = "bi bi-facebook" 
+        },
+        ["Instagram"] = new PlatformInfo { 
+            DisplayName = "Instagram", 
+            UrlPrefix = "https://instagram.com/", 
+            IconClass = "bi bi-instagram" 
+        },
+        ["LinkedIn"] = new PlatformInfo { 
+            DisplayName = "LinkedIn", 
+            UrlPrefix = "https://linkedin.com/in/", 
+            IconClass = "bi bi-linkedin" 
+        },
+        ["Mixcloud"] = new PlatformInfo { 
+            DisplayName = "Mixcloud", 
+            UrlPrefix = "https://mixcloud.com/", 
+            IconClass = "bi bi-cloud" 
+        },
+        ["RA"] = new PlatformInfo { 
+            DisplayName = "Resident Advisor", 
+            UrlPrefix = "https://ra.co/", 
+            IconClass = "bi bi-people" 
+        },
+        ["Spotify"] = new PlatformInfo { 
+            DisplayName = "Spotify", 
+            UrlPrefix = "https://open.spotify.com/artist/", 
+            IconClass = "bi bi-spotify" 
+        },
+        ["SoundCloud"] = new PlatformInfo { 
+            DisplayName = "SoundCloud", 
+            UrlPrefix = "https://soundcloud.com/", 
+            IconClass = "bi bi-soundwave" 
+        },
+        ["TikTok"] = new PlatformInfo { 
+            DisplayName = "TikTok", 
+            UrlPrefix = "https://tiktok.com/@", 
+            IconClass = "bi bi-tiktok" 
+        },
+        ["X"] = new PlatformInfo { 
+            DisplayName = "X (Twitter)", 
+            UrlPrefix = "https://x.com/", 
+            IconClass = "bi bi-twitter-x" 
+        },
+        ["YouTube"] = new PlatformInfo { 
+            DisplayName = "YouTube", 
+            UrlPrefix = "https://youtube.com/", 
+            IconClass = "bi bi-youtube" 
+        }
+    };
+
+    private List<PlatformInfo> GetPlatforms()
+    {
+        if (SocialLinks == null) return new List<PlatformInfo>();
+        
+        var type = SocialLinks.GetType();
+        var properties = type.GetProperties()
+            .Where(p => p.PropertyType == typeof(string) && 
+                   !new[] { "Id", "VenueProfileLuId", "ArtistProfileLuId" }.Contains(p.Name));
+        
+        var result = new List<PlatformInfo>();
+        foreach (var prop in properties)
+        {
+            if (_platformConfigs.TryGetValue(prop.Name, out var config))
+            {
+                result.Add(new PlatformInfo 
+                { 
+                    PropertyName = prop.Name,
+                    DisplayName = config.DisplayName,
+                    UrlPrefix = config.UrlPrefix,
+                    IconClass = config.IconClass
+                });
+            }
+            else
+            {
+                // Fallback for properties without specific config
+                result.Add(new PlatformInfo 
+                { 
+                    PropertyName = prop.Name,
+                    DisplayName = FormatDisplayName(prop.Name),
+                    UrlPrefix = "https://",
+                    IconClass = "bi bi-link-45deg"
+                });
+            }
+        }
+        
+        return result;
+    }
+
+    private string FormatDisplayName(string propName)
+    {
+        // Add spaces before capital letters (e.g., "AppleMusic" -> "Apple Music")
+        return System.Text.RegularExpressions.Regex.Replace(propName, "([a-z])([A-Z])", "$1 $2");
+    }
+
+    private string? GetHandleValue(string propertyName)
+    {
+        if (SocialLinks == null) return null;
+        
+        var property = SocialLinks.GetType().GetProperty(propertyName);
+        return property?.GetValue(SocialLinks) as string;
+    }
+
+    private async Task UpdateHandle(string propertyName, string? value)
+    {
+        if (SocialLinks == null) return;
+        
+        var property = SocialLinks.GetType().GetProperty(propertyName);
+        if (property != null && property.CanWrite)
+        {
+            property.SetValue(SocialLinks, value);
+            await SocialLinksChanged.InvokeAsync(SocialLinks);
+        }
+    }
+}
