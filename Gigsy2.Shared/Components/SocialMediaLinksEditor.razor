@@ -22,6 +22,7 @@
     </div>
 </div>
 
+
 @code {
     [Parameter] public string Title { get; set; } = "Social Media Links";
     [Parameter] public string Description { get; set; } = "Connect your social accounts to help people find and follow you.";
@@ -149,7 +150,28 @@
         if (SocialLinks == null) return null;
         
         var property = SocialLinks.GetType().GetProperty(propertyName);
-        return property?.GetValue(SocialLinks) as string;
+        string? handle = property?.GetValue(SocialLinks) as string;
+        
+        // Clean up any potential prefixes if somehow stored
+        if (!string.IsNullOrWhiteSpace(handle))
+        {
+            // Remove @ prefix if present
+            if (handle.StartsWith('@'))
+                return handle.Substring(1);
+                
+            // Try to extract handle if it's a full URL
+            if (Uri.IsWellFormedUriString(handle, UriKind.Absolute))
+            {
+                string urlPrefix = _platformConfigs.TryGetValue(propertyName, out var config)
+                    ? config.UrlPrefix
+                    : "https://";
+                
+                if (handle.StartsWith(urlPrefix))
+                    return handle.Substring(urlPrefix.Length);
+            }
+        }
+        
+        return handle;
     }
 
     private async Task UpdateHandle(string propertyName, string? value)
@@ -159,6 +181,25 @@
         var property = SocialLinks.GetType().GetProperty(propertyName);
         if (property != null && property.CanWrite)
         {
+            // Clean the handle before saving
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                // Remove @ prefix if present
+                if (value.StartsWith('@'))
+                    value = value.Substring(1);
+                    
+                // If a full URL was pasted, extract just the handle
+                if (Uri.IsWellFormedUriString(value, UriKind.Absolute))
+                {
+                    string urlPrefix = _platformConfigs.TryGetValue(propertyName, out var config)
+                        ? config.UrlPrefix
+                        : "https://";
+                        
+                    if (value.StartsWith(urlPrefix))
+                        value = value.Substring(urlPrefix.Length);
+                }
+            }
+            
             property.SetValue(SocialLinks, value);
             await SocialLinksChanged.InvokeAsync(SocialLinks);
         }

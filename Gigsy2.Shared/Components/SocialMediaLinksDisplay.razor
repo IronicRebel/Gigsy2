@@ -1,0 +1,124 @@
+@using Gigsy2.Core.Entities.Artist
+@using Gigsy2.Core.Entities.Venue
+@using System.Reflection
+
+<div class="social-links @ContainerClass">
+    @foreach (var link in GetSocialLinks())
+    {
+        <a href="@link.Url" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="social-icon @IconClass" 
+           title="@link.Platform">
+            <i class="@link.IconClass"></i>
+            @if (ShowLabels)
+            {
+                <span class="ms-2">@link.Platform</span>
+            }
+        </a>
+    }
+</div>
+
+<style>
+    .social-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .social-icon {
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+        transition: opacity 0.2s;
+    }
+    
+    .social-icon:hover {
+        opacity: 0.8;
+    }
+    
+    .social-icon-sm {
+        font-size: 1.2rem;
+    }
+    
+    .social-icon-md {
+        font-size: 1.5rem;
+    }
+    
+    .social-icon-lg {
+        font-size: 2rem;
+    }
+</style>
+
+@code {
+    [Parameter] public object? SocialLinks { get; set; }
+    [Parameter] public string ContainerClass { get; set; } = "";
+    [Parameter] public string IconClass { get; set; } = "social-icon-md";
+    [Parameter] public bool ShowLabels { get; set; } = false;
+
+    private class SocialLink
+    {
+        public string Platform { get; set; } = string.Empty;
+        public string Url { get; set; } = string.Empty;
+        public string IconClass { get; set; } = string.Empty;
+    }
+    
+    // Using the same configuration as the editor
+    private Dictionary<string, PlatformInfo> _platformConfigs = new Dictionary<string, PlatformInfo>
+    {
+        // Same as in SocialMediaLinksEditor...
+        ["AppleMusic"] = new PlatformInfo { 
+            DisplayName = "Apple Music", 
+            UrlPrefix = "https://music.apple.com/artist/", 
+            IconClass = "bi bi-music-note-beamed" 
+        },
+        // Copy all the other platform configs...
+    };
+    
+    private class PlatformInfo
+    {
+        public string DisplayName { get; set; } = string.Empty;
+        public string UrlPrefix { get; set; } = string.Empty;
+        public string IconClass { get; set; } = string.Empty;
+    }
+
+    private List<SocialLink> GetSocialLinks()
+    {
+        var result = new List<SocialLink>();
+        
+        if (SocialLinks == null) return result;
+        
+        var type = SocialLinks.GetType();
+        var properties = type.GetProperties()
+            .Where(p => p.PropertyType == typeof(string) && 
+                   !new[] { "Id", "VenueProfileLuId", "ArtistProfileLuId" }.Contains(p.Name));
+                   
+        foreach (var prop in properties)
+        {
+            string? handle = prop.GetValue(SocialLinks) as string;
+            
+            if (!string.IsNullOrWhiteSpace(handle))
+            {
+                string urlPrefix = "https://";
+                string displayName = prop.Name;
+                string iconClass = "bi bi-link-45deg";
+                
+                if (_platformConfigs.TryGetValue(prop.Name, out var config))
+                {
+                    urlPrefix = config.UrlPrefix;
+                    displayName = config.DisplayName;
+                    iconClass = config.IconClass;
+                }
+                
+                result.Add(new SocialLink
+                {
+                    Platform = displayName,
+                    Url = $"{urlPrefix}{handle}",
+                    IconClass = iconClass
+                });
+            }
+        }
+        
+        return result;
+    }
+}
