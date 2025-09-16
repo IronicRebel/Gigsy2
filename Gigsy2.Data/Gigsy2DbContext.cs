@@ -14,32 +14,31 @@ namespace Gigsy2.Data
         {
         }
 
-        // Properly initialized DbSet properties
+        #region Initialise DbSets
+        /////////////////////////////////////////////
+        
         public DbSet<ArtistProfile> ArtistProfiles { get; set; } = null!;
         public DbSet<VenueProfile> VenueProfiles { get; set; } = null!;
         public DbSet<BookingItem> Bookings { get; set; } = null!;
         public DbSet<ArtistSocialMediaLinks> ArtistSocialMediaLinks { get; set; } = null!;
-        public DbSet<ArtistReview> ArtistReviews { get; set; } = null!;
+        public DbSet<ArtistReviews> ArtistReviews { get; set; } = null!;
         public DbSet<ArtistAvailability> ArtistAvailabilities { get; set; } = null!;
+
+        #endregion
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             // Configure lookup ID indices
-            builder.Entity<ArtistProfile>()
-                .HasIndex(a => a.gupLUId)  // Index on lookup ID, not primary key
-                .IsUnique();
+            
+            #region Configure Relationships
 
-            // Configure relationships
-
-            // Venue
-            builder.Entity<VenueProfile>()
-                .HasIndex(v => v.gupId)    // Index on lookup ID, not primary key
-                .IsUnique();
-
-
+            //
             // Artist
+            //
+
+            // Profile
             builder.Entity<ArtistProfile>()
                 .HasOne<Gigsy2User>()
                 .WithOne()
@@ -52,10 +51,24 @@ namespace Gigsy2.Data
                 .HasForeignKey<ArtistSocialMediaLinks>("ArtistProfileId");
 
             builder.Entity<ArtistProfile>()
-                .HasOne(a => a.Availability)
+                .HasOne(a => a.ArtistAvailability)
                 .WithOne(a => a.ArtistProfile)
-                .HasForeignKey<ArtistAvailability>(a => a.ArtistProfileId);
+                .HasForeignKey<ArtistAvailability>(a => a.ArtistAvailabilityId);
 
+            //
+            // Venue
+            //
+
+            // Profile 
+            builder.Entity<VenueProfile>()
+                .HasIndex(v => v.gupId)    // Index on lookup ID, not primary key
+                .IsUnique();
+
+            // Profile
+
+
+
+            #endregion Configure Relationships
         }
     }
 }

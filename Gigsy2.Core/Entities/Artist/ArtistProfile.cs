@@ -3,6 +3,7 @@ using Gigsy2.Core.Entities.Common;
 using System.ComponentModel.DataAnnotations;
 
 using Gigsy2.Core.Entities.Booking;
+using Gigsy2.Core.Entities.Review;
 
 namespace Gigsy2.Core.Entities.Artist
 {
@@ -17,19 +18,26 @@ namespace Gigsy2.Core.Entities.Artist
         public string? AvatarUrl { get; set; }
         public string? Bio { get; set; }
 
+        public ArtistSocialMediaLinks? ArtistSocialMediaLinks { get; set; }
+
         // Location Details
         public string? NearestTown { get; set; } = string.Empty;
 
         public double? Latitude { get; set; }  // Optional: for future mapping/filtering
         public double? Longitude { get; set; } // Optional: for future mapping/filtering
 
-        public List<BookingItem> ArtistBookingItems { get; set; } = new();
-        public List<ArtistReview> ArtistReviews { get; set; } = new();
+        public ArtistAvailability? ArtistAvailability { get; set; }
 
-        public ArtistAvailability AArtistAvailability { get; set; } = null;
 
-        public ArtistContactInfo ArtistContactInfo { get; set; } = new();
-        public ArtistSocialMediaLinks ArtistSocialMediaLinks { get; set; } = new();
+        // Relations to Common Entities 
+        public ArtistContactInfo? ArtistContactInfo { get; set; }
+        public List<Genre>? ArtistGenres {  get; set; }
+
+        // Relations to other Entities
+
+        public List<BookingItem>? ArtistBookingItems { get; set; }
+        public List<ReviewItem>? ArtistReviews { get; set; }
+
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
