@@ -10,7 +10,7 @@ namespace Gigsy2.Core.Entities.Common
     {
         public string Email { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;
-        public string Website { get; set; } = string.Empty;
+        public string WebsiteUrl { get; set; } = string.Empty;
     
         public List<AdditionalContactDetail> AdditionalContactDetails { get; set; } = new();
     }

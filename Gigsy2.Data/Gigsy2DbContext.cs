@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Gigsy2.Core.Entities.Artist;
 using Gigsy2.Core.Entities.Booking;
+using Gigsy2.Core.Entities.Review;
 using Gigsy2.Core.Entities.User;
 using Gigsy2.Core.Entities.Venue;
 
@@ -18,11 +19,13 @@ namespace Gigsy2.Data
         /////////////////////////////////////////////
         
         public DbSet<ArtistProfile> ArtistProfiles { get; set; } = null!;
-        public DbSet<VenueProfile> VenueProfiles { get; set; } = null!;
-        public DbSet<BookingItem> Bookings { get; set; } = null!;
-        public DbSet<ArtistSocialMediaLinks> ArtistSocialMediaLinks { get; set; } = null!;
-        public DbSet<ArtistReviews> ArtistReviews { get; set; } = null!;
         public DbSet<ArtistAvailability> ArtistAvailabilities { get; set; } = null!;
+        public DbSet<ArtistReviews> ArtistReviews { get; set; } = null!;
+        public DbSet<ArtistSocialMediaLinks> ArtistSocialMediaLinks { get; set; } = null!;
+
+        public DbSet<BookingItem> Bookings { get; set; } = null!;
+
+        public DbSet<VenueProfile> VenueProfiles { get; set; } = null!;
 
         #endregion
 

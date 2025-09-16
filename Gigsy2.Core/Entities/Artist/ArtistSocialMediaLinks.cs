@@ -17,6 +17,7 @@ namespace Gigsy2.Core.Entities.Artist
         public ArtistProfile? ArtistProfile { get; set; }
 
         // Artist-specific platforms
+        // Component should accept handles or full URLs and full URLs are saved to the database
         public string? AppleMusic { get; set; }
         public string? Bandcamp { get; set; }
         public string? Instagram { get; set; }

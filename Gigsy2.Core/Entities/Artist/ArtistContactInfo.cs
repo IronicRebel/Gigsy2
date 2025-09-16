@@ -13,12 +13,12 @@ namespace Gigsy2.Core.Entities.Artist
         public Guid ArtistProfileId { get; set; }
 
         [EmailAddress]
-        public string? Email { get; set; }
+        public string? ArtistEmail { get; set; }
 
         [Phone]
-        public string? PhoneNumber { get; set; }
+        public string? ArtistPhoneNumber { get; set; }
 
         [Url]
-        public string? WebsiteUrl { get; set; }
+        public string? ArtistWebsiteUrl { get; set; }
     }
 }
