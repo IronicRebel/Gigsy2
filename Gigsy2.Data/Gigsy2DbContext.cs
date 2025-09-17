@@ -15,11 +15,16 @@ namespace Gigsy2.Data
         {
         }
 
+        /// 
+        /// // INITIALISE DBSETs BELOW
+        ///
+
         #region Initialise DbSets
-        /////////////////////////////////////////////
-        
+
         public DbSet<ArtistProfile> ArtistProfiles { get; set; } = null!;
         public DbSet<ArtistAvailability> ArtistAvailabilities { get; set; } = null!;
+        public DbSet<ArtistContactInfo> ArtistContactInfos { get; set; } = null!;
+        public DbSet<ArtistGenres> ArtistGenres { get; set; } = null!;
         public DbSet<ArtistReviews> ArtistReviews { get; set; } = null!;
         public DbSet<ArtistSocialMediaLinks> ArtistSocialMediaLinks { get; set; } = null!;
 
@@ -28,6 +33,11 @@ namespace Gigsy2.Data
         public DbSet<VenueProfile> VenueProfiles { get; set; } = null!;
 
         #endregion
+
+
+        /// 
+        /// // ON MODEL CREATING BELOW
+        ///
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -47,16 +57,25 @@ namespace Gigsy2.Data
                 .WithOne()
                 .HasForeignKey<ArtistProfile>("gupLUId")
                 .IsRequired(false);
-                
+
+            // Availability
+            builder.Entity<ArtistProfile>()
+                .HasOne(a => a.ArtistAvailability)
+                .WithOne(a => a.ArtistProfile)
+                .HasForeignKey<ArtistAvailability>(a => a.ArtistAvailabilityId);
+
+            // Contact Details
+
+
+            // Artist Genres
+
+
+            // Social Media Handles
             builder.Entity<ArtistSocialMediaLinks>()
                 .HasOne<ArtistProfile>()
                 .WithOne()
                 .HasForeignKey<ArtistSocialMediaLinks>("ArtistProfileId");
 
-            builder.Entity<ArtistProfile>()
-                .HasOne(a => a.ArtistAvailability)
-                .WithOne(a => a.ArtistProfile)
-                .HasForeignKey<ArtistAvailability>(a => a.ArtistAvailabilityId);
 
             //
             // Venue
@@ -67,10 +86,22 @@ namespace Gigsy2.Data
                 .HasIndex(v => v.gupId)    // Index on lookup ID, not primary key
                 .IsUnique();
 
-            // Profile
+            // Contact Details
 
 
 
+            // Facilities
+
+
+            // Venue Reviews
+
+
+
+            // Venue Social Media Links
+
+            
+
+            
             #endregion Configure Relationships
         }
     }

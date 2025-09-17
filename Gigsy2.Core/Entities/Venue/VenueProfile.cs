@@ -10,7 +10,9 @@ namespace Gigsy2.Core.Entities.Venue
         public int vpId { get; set; } // Primary key (venue profile ID)
         
         public Guid gupId { get; set; } // For linking to Gigsy2User
-        
+
+        public Guid OwnerHostId { get; set; } // For linking to the owner Host Profile
+
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         
