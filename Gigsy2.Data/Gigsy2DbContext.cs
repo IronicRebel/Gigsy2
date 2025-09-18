@@ -2,10 +2,11 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 using Gigsy2.Core.Entities.Artist;
-using Gigsy2.Core.Entities.Booking;
-using Gigsy2.Core.Entities.Review;
+using Gigsy2.Core.Entities.Common;
+using Gigsy2.Core.Entities.Gig;
 using Gigsy2.Core.Entities.User;
 using Gigsy2.Core.Entities.Venue;
+using Gigsy2.Core.Entities.Host;
 
 namespace Gigsy2.Data
 {
@@ -21,14 +22,24 @@ namespace Gigsy2.Data
 
         #region Initialise DbSets
 
+        // Artist
         public DbSet<ArtistProfile> ArtistProfiles { get; set; } = null!;
-        public DbSet<ArtistAvailability> ArtistAvailabilities { get; set; } = null!;
         public DbSet<ArtistContactInfo> ArtistContactInfos { get; set; } = null!;
         public DbSet<ArtistGenres> ArtistGenres { get; set; } = null!;
-        public DbSet<ArtistReviews> ArtistReviews { get; set; } = null!;
         public DbSet<ArtistSocialMediaLinks> ArtistSocialMediaLinks { get; set; } = null!;
 
-        public DbSet<BookingItem> Bookings { get; set; } = null!;
+        // Common
+        public DbSet<EventType> EventTypes { get; set; } = null!;
+        public DbSet<Genre> Genres { get; set; } = null!;
+       
+
+        // Gig
+        public DbSet<GigApplication> GigApplications { get; set; } = null!;
+        public DbSet<GigItem> GigItems { get; set; } = null!;
+        public DbSet<GigReview> GigReviews { get; set; } = null!;
+
+        // Host
+        public DbSet<HostProfile> HostProfiles { get; set; } = null!;
 
         public DbSet<VenueProfile> VenueProfiles { get; set; } = null!;
 
@@ -58,24 +69,59 @@ namespace Gigsy2.Data
                 .HasForeignKey<ArtistProfile>("gupLUId")
                 .IsRequired(false);
 
-            // Availability
-            builder.Entity<ArtistProfile>()
-                .HasOne(a => a.ArtistAvailability)
-                .WithOne(a => a.ArtistProfile)
-                .HasForeignKey<ArtistAvailability>(a => a.ArtistAvailabilityId);
-
             // Contact Details
+            builder.Entity<ArtistProfile>().HasOne<ArtistContactInfo>()
+                .WithOne()
+                .HasForeignKey<ArtistContactInfo>("ArtistProfileId");
 
 
             // Artist Genres
-
+            builder.Entity<ArtistProfile>()
+                .HasMany<ArtistGenres>();
 
             // Social Media Handles
-            builder.Entity<ArtistSocialMediaLinks>()
-                .HasOne<ArtistProfile>()
+            builder.Entity<ArtistProfile>()
+                .HasMany<ArtistSocialMediaLinks>()
                 .WithOne()
-                .HasForeignKey<ArtistSocialMediaLinks>("ArtistProfileId");
+                .HasForeignKey<ArtistSocialMediaLinks>("ArtistProfileLuId");
 
+            //
+            // Gig
+            //
+            builder.Entity<GigItem>()
+                .HasOne<VenueProfile>()
+                .WithMany()
+                .HasForeignKey("VenueProfileId")
+                .IsRequired();
+            builder.Entity<GigItem>()
+                .HasOne<EventType>()
+                .WithMany()
+                .HasForeignKey("EventTypeId")
+                .IsRequired(false);
+            builder.Entity<GigItem>()
+                .HasMany<GigApplication>()
+                .WithOne()
+                .HasForeignKey("GigId")
+                .IsRequired(false);
+            builder.Entity<GigItem>()
+                .HasMany<GigReview>()
+                .WithOne()
+                .HasForeignKey("GigId")
+                .IsRequired(false);
+
+
+            // 
+            // Host
+            //
+
+            // Profile
+            builder.Entity<HostProfile>()
+                .HasOne<Gigsy2User>()
+                .WithOne()
+                .HasForeignKey<HostProfile>("gupLUId")
+                .IsRequired(false);
+
+            // Contact Details
 
             //
             // Venue
@@ -88,14 +134,7 @@ namespace Gigsy2.Data
 
             // Contact Details
 
-
-
             // Facilities
-
-
-            // Venue Reviews
-
-
 
             // Venue Social Media Links
 

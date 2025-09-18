@@ -4,15 +4,17 @@ using System.ComponentModel.DataAnnotations;
 
 using Gigsy2.Core.Entities.Booking;
 using Gigsy2.Core.Entities.Gig;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Gigsy2.Core.Entities.Artist
 {
     public class ArtistProfile
     {
         [Key]
-        public Guid apId { get; set; } // The primary key for the ArtistProfile entity
+        public Guid Id { get; set; } // The primary key for the ArtistProfile entity
 
-        public Guid gupLUId { get; set; } // Lookup GUID to link with Gigsy2User
+        [ForeignKey("Gigsy2UserId")]
+        public Guid Gigsy2UserId { get; set; } // Lookup GUID to link with Gigsy2User
 
         public string? StageName { get; set; }
         public string? AvatarUrl { get; set; }
@@ -26,9 +28,6 @@ namespace Gigsy2.Core.Entities.Artist
 
         public double? Latitude { get; set; }  // Optional: for future mapping/filtering
         public double? Longitude { get; set; } // Optional: for future mapping/filtering
-
-        public ArtistAvailability? ArtistAvailability { get; set; }
-
 
         // Relations to Common Entities 
         public ArtistContactInfo? ArtistContactInfo { get; set; }

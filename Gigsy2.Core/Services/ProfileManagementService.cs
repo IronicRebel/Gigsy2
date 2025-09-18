@@ -30,10 +30,10 @@ namespace Gigsy2.Core.Services
             if (user == null) throw new ArgumentException("User not found");
             
             // Set primary key
-            profile.apId = Guid.NewGuid();
+            profile.Id = Guid.NewGuid();
             
             // Set lookup ID to match user's gupId
-            profile.gupLUId = user.gupId;
+            profile.Gigsy2UserIdLookup = user.Id;
             
             // Set timestamps
             profile.CreatedAt = DateTime.UtcNow;
@@ -43,7 +43,7 @@ namespace Gigsy2.Core.Services
             var savedProfile = await _artistRepository.AddAsync(profile);
             
             // Update user with reference to artist profile
-            user.apLUId = savedProfile.apId; // This should point to the profile's primary key
+            user.apLUId = savedProfile.Id; // This should point to the profile's primary key
             await _userManager.UpdateAsync(user);
             
             return savedProfile;

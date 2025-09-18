@@ -31,10 +31,10 @@ namespace Gigsy2.Core.Entities.Gig
         public GigStatus Status { get; set; } // Upcoming, Completed, Cancelled
 
         public Guid HostId { get; set; }
-        public HostProfile Host { get; set; }
+        public HostProfile? Host { get; set; }
 
         public Guid VenueId { get; set; }
-        public VenueProfile Venue { get; set; }
+        public VenueProfile? Venue { get; set; }
 
         public List<Guid>? ArtistIds { get; set; }
 

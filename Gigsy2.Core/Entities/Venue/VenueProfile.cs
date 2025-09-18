@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Gigsy2.Core.Entities.Booking;
+﻿using Gigsy2.Core.Entities.Booking;
 using Gigsy2.Core.Entities.Common;
+using Gigsy2.Core.Entities.Gig;
+using System.ComponentModel.DataAnnotations;
 
 namespace Gigsy2.Core.Entities.Venue
 {
@@ -16,14 +17,12 @@ namespace Gigsy2.Core.Entities.Venue
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         
-        // Location coordinates for mapping
-        public double? Latitude { get; set; }
-        public double? Longitude { get; set; }
-        
         // public List<string> VenuePhotos { get; set; } = [];
         // public List<VenueFacility> Facilities { get; set; } = [];
-        public ContactInfo ContactInfo { get; set; } = new ContactInfo();
-        
+        public ContactInfo VenueContactInfo { get; set; } = new ContactInfo();
+
+        public List<GigReview>? VenueGigReviews { get; set; }
+
         // Tracking fields
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;

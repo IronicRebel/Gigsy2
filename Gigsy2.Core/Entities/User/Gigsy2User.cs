@@ -5,8 +5,8 @@ namespace Gigsy2.Core.Entities.User
 {
     public class Gigsy2User : IdentityUser
     {
-        public Guid gupId { get; set; } = Guid.NewGuid();
-        
+        public Guid Gigsy2UserId { get; set; }
+
         // Basic user profile information
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;

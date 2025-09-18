@@ -1,34 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Gigsy2.Core.Entities.Artist;
-using Gigsy2.Core.Entities.Host;
-using Gigsy2.Core.Entities.Venue;
 
 namespace Gigsy2.Core.Entities.Gig
 {
     public class GigReview
     {
         [Key]
-        public int grId { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
-        [ForeignKey("GigId")]
-        public int GigId { get; set; }
+        // Link to the gig
+        public Guid GigId { get; set; }
+        
+        // Reviewer information
+        public ReviewRole ReviewerRole { get; set; }
+        public Guid ReviewerId { get; set; }
+        
+        // Reviewee information
+        public ReviewRole RevieweeRole { get; set; }
+        public Guid RevieweeId { get; set; }
 
-        public GigItem GigItem { get; set; }
-
-        public ReviewRole ReviewerRole { get; set; } // Host or Artist
-        public int ReviewerId { get; set; }
-        public int RevieweeId { get; set; }
-
+        // Review Content
+        [Range(1, 5)]
         public int Rating { get; set; }
-        public string Comment { get; set; }
-        public DateTime CreatedAt { get; set; }
+
+        [MaxLength(450)]
+        public string? Comment { get; set; }
+        
+        // Review metadata
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
+        
+        // Navigation property - just one for the gig
+        public GigItem? Gig { get; set; }
+        
+        // Helper methods instead of navigation properties
+        [NotMapped]
+        public string ReviewerDisplayName { get; set; } = string.Empty;
+        
+        [NotMapped]
+        public string RevieweeDisplayName { get; set; } = string.Empty;
     }
 
     public enum ReviewRole
@@ -36,12 +47,5 @@ namespace Gigsy2.Core.Entities.Gig
         Artist,
         Host,
         Venue
-    }
-
-    public enum ReviewType
-    {
-        Gig,
-        Venue,
-        Artist
     }
 }
